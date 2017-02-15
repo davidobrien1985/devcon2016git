@@ -18,7 +18,12 @@ RUN gem install rails bundler
 
 RUN rails new demo
 WORKDIR demo
-RUN rails generate controller Welcome index
+#RUN rails generate controller Welcome index
+COPY ./demo/Gemfile ./demo/Gemfile.lock ./ 
+RUN gem install bundler && bundle install --jobs 20 --retry 5
+
+# Copy the main application.
+COPY ./demo ./
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.
